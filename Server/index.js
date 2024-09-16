@@ -26,9 +26,10 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 const port = process.env.PORT || 3000;
+const mongoDbUrl = process.env.MONGODB_URL;
 
 mongoose
-  .connect("mongodb+srv://sksalam:salam888@cluster.0k9ay.mongodb.net/")
+  .connect(mongoDbUrl)
   .then(() => console.log("Database connection established"))
   .catch((err) => console.log(err));
 

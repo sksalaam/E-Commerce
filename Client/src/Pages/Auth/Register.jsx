@@ -1,7 +1,7 @@
 import CommmonForm from "@/Components/Common/Form"
 import { registerFormControl } from "@/Config"
 import { useToast } from "@/hooks/use-toast"
-import { registerUser } from "@/store/auth-slice"
+import { registerUser } from "@/Store/auth-slice"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
