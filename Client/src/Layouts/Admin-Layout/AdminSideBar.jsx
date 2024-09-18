@@ -1,4 +1,5 @@
 
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/Components/ui/sheet"
 import { LayoutDashboard, ShoppingBasket, ShoppingCart } from "lucide-react"
 import { ChartNoAxesCombined } from "lucide-react"
 import { Fragment } from "react"
@@ -25,14 +26,17 @@ export const adminSidebarMenuItems = [
       icon : <ShoppingCart />
   }
 ]
-function MenuItems (){
+function MenuItems ({setOpen}){
   const navigate = useNavigate();
    return <nav className="mt-8 flex-col flex gap-2">
     {    
     adminSidebarMenuItems.map(menuItem=> (
     <div 
         key={menuItem.id} 
-        onClick={()=> navigate(menuItem.path)}
+        onClick={()=> {
+          navigate(menuItem.path)
+          setOpen?setOpen(false):null        
+        }}
         className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-muted-foreground hover:bg-muted hover:text-foreground ">
         {menuItem.icon}
         <span>{menuItem.title}</span>
@@ -41,11 +45,24 @@ function MenuItems (){
    }     
    </nav>
 }
-const AdminSideBar = () => {
+const AdminSideBar = ({open, setOpen}) => {
   const navigate = useNavigate();
 
   return (
  <Fragment>
+  <Sheet open={open} onOpenChange={setOpen}>
+    <SheetContent side ="left" className="w-64 ">
+      <div className="flex flex-col h-full">
+        <SheetHeader className='border-b'>
+          <SheetTitle className='flex gap-2 mt-5 mb-5'>
+            <ChartNoAxesCombined strokeWidth={2.25}/>
+            <span className="text-xl font-bold">Admin Panel</span>
+          </SheetTitle>
+        </SheetHeader>
+        <MenuItems setOpen={setOpen}/>
+      </div>
+    </SheetContent>
+  </Sheet>
   <aside className="hidden w-64 flex-col border-r bg-background p-6 lg:flex">
     <div
      onClick={() => navigate('/admin/dashboard')}
