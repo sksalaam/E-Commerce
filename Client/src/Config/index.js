@@ -1,3 +1,5 @@
+
+
 export const registerFormControl =[
     {
         name:'userName',
@@ -45,3 +47,4 @@ export const LoginFormControl =[
         placeHolder : 'Enter your password'
     }
 ]
+

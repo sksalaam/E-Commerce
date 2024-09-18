@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import CommmonForm from "@/Components/Common/Form"
 import { LoginFormControl } from "@/Config"
 import { loginUser } from "@/Store/auth-slice"
@@ -21,14 +22,11 @@ const Login = () => {
   function onSubmit(event){
     event.preventDefault();
    dispatch(loginUser(formData)).then(data=>{
-    console.log(data);
-
     if(data?.payload?.success){
       toast({
         title:data?.payload?.message,
-
        })
-       navigate('/shop')
+       navigate('/shop/home')
       }
       else{
         toast({
@@ -39,7 +37,6 @@ const Login = () => {
       }
    })
    
-
   }
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
@@ -57,8 +54,7 @@ const Login = () => {
      formData={formData}
      setFormData={setFormData}     
      onSubmit={onSubmit}
-     />
-      
+     />      
     </div>
   )
 }

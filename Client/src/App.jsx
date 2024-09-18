@@ -5,44 +5,79 @@ import { Orders, Dashboard, Products } from "./Pages/Admin";
 import { Home, Account, Listing, Checkout } from "./Pages/Shopping";
 import CheckAuth from "./Components/Common/CheckAuth";
 import UnAuth from "./Pages/UnAuth/UnAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { check_Auth } from "./Store/auth-slice";
+import { Skeleton } from "@/components/ui/skeleton"
+
 
 function App() {
-  const {user, isAuthenticated} = useSelector(state => state.auth)
+  const {user, isAuthenticated, isLoading} = useSelector(state => state.auth);
+  
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(check_Auth())
+  },[dispatch]);
+  if (isLoading) return <Skeleton className="w-[800] h-[600] bg-black rounded-full" />
+
+
+
   return (
-    <div className="flex flex-col overflow-hidden bg-white">
+   
+     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
-        <Route path="/auth"
+        <Route
+          path="/"
+          element={
+            <CheckAuth
+              isAuthenticated={isAuthenticated}
+              user={user}
+            ></CheckAuth>
+          }
+        />
+        <Route
+          path="/auth"
           element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <AuthLayout />
             </CheckAuth>
-          }>
+          }
+        >
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
-        <Route path="/admin"
+        <Route
+          path="/admin"
           element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <AdminLayout />
             </CheckAuth>
-          }>
-          <Route path="orders" element={<Orders />} />
+          }
+        >
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<Products />} />
+          <Route path="orders" element={<Orders />} />
+         
         </Route>
-        <Route path="/shop"
+        <Route
+          path="/shop"
           element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <ShoppingLayout />
             </CheckAuth>
-          }>
-          <Route index element={<Home />} />
-          <Route path="account" element={<Account />} />
+          }
+        >
+          <Route path="home" element={<Home />} />
           <Route path="listing" element={<Listing />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="account" element={<Account />} />
+          {/* <Route path="paypal-return" element={<PaypalReturnPage />} />
+          <Route path="payment-success" element={<PaymentSuccessPage />} />
+          <Route path="search" element={<SearchProducts />} /> */}
         </Route>
-        <Route path="/unauth" element={<UnAuth />} />
+        <Route path="/unAuth" element={<UnAuth />} />
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </div>
   );
