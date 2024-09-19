@@ -2,6 +2,7 @@ import CommmonForm from "@/Components/Common/Form"
 import { Button } from "@/Components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/Components/ui/sheet"
 import { addProductFormElements } from "@/Config"
+import ImageUpload from "@/Layouts/Admin-Layout/ImageUpload"
 import { Fragment, useState } from "react"
 
 const initialFormData = {
@@ -19,7 +20,9 @@ const Products = () => {
 
   const [openCreateProductDialog, setOpenCreateProductDialog]= useState(false);
   const [formData, setFormData] = useState(initialFormData);
-  const onSubmit = (event) => {
+  const [imagefile, setImageFile] = useState(null);  
+  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+  const onSubmit = () => {
 
   }
 
@@ -37,6 +40,7 @@ const Products = () => {
               Add New Product
             </SheetTitle>
           </SheetHeader>
+          <ImageUpload file={imagefile} setFile={setImageFile} uploadedImageUrl={uploadedImageUrl} setUploadedImageUrl={setUploadedImageUrl}/>  
           <div className="py-6">
              <CommmonForm
              formData={formData}
