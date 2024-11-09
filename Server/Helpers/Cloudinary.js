@@ -14,7 +14,7 @@ async function imageUploadUtil(file) {
     const result = await cloudinary.uploader.upload(file, {
         resource_type : 'auto'
     })
-    return result;    
+    return result;     
 }
 
 const upload = multer({ storage });

@@ -23,10 +23,7 @@ export const loginUser = createAsyncThunk(
         {
           withCredentials: true,
         }
-      );  
-    //   if (response.data.success) {
-    //     sessionStorage.setItem('user', JSON.stringify(response.data.user));
-    //   }
+      ); 
       return response.data;
     }
   );
@@ -45,6 +42,14 @@ export const check_Auth = createAsyncThunk('/auth/checkauth',
         return response.data
     }    
 )
+
+export const logoutUser = createAsyncThunk('/auth/logout',
+    async()=>{
+        const response = await axios.post('http://localhost:3000/api/auth/logout', {},{
+            withCredentials: true,
+        })
+        return response.data
+    })
 
 
 const authSlice= createSlice({
@@ -88,6 +93,10 @@ const authSlice= createSlice({
             state.isLoading = false;
             state.user = null;
             state.isAuthenticated = false;       
+        }).addCase(logoutUser.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.user = null ;
+            state.isAuthenticated = false;
         })
     }
 })

@@ -16,9 +16,10 @@ function App() {
   
   const dispatch = useDispatch();
 
-  useEffect(()=>{
+  useEffect(()=>{ 
     dispatch(check_Auth())
   },[dispatch]);
+  
   if (isLoading) return <Skeleton className="w-[800] h-[600] bg-black rounded-full" />
 
 

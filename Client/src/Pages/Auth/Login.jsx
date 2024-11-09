@@ -22,7 +22,7 @@ const Login = () => {
   function onSubmit(event){
     event.preventDefault();
    dispatch(loginUser(formData)).then(data=>{
-    if(data?.payload?.success){
+    if(data?.payload?.success){ 
       toast({
         title:data?.payload?.message,
        })

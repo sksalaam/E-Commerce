@@ -36,9 +36,9 @@ const register = async (req, res) => {
 
 //LOGIN
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body; 
   try {
-    const checkUser = await User.findOne({ email });
+    const checkUser = await User.findOne({ email }); 
     if (!checkUser)
       return res.json({
         success: false,
@@ -100,7 +100,7 @@ const authMiddleware = async (req, res, next) => {
   if (!token)
     return res.status(401).json({
       success: false,
-      message: "Unauthorised user!",
+      message: "Unauthorised user!", 
     });
 
   try {
