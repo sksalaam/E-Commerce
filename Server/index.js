@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRoutes = require("./Routes/Auth/index.js");
-const adminProductRoutes = require("./Routes/Admin/ProductsRoutes.js");  
+const adminProductRoutes = require("./Routes/Admin/ProductsRoutes.js"); 
+const shopProductRoutes = require("./Routes/Shop/ProductRoutes.js");
 
 const app = express();
 require('dotenv').config();
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminProductRoutes);
+app.use("/api/shop/products", shopProductRoutes);
 
 const port = process.env.PORT || 3000;
 const mongoDbUrl = process.env.MONGODB_URL;
