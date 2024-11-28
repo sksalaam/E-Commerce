@@ -63,8 +63,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   function handleDialogClose() {
     setOpen(false);
     dispatch(setProductDetails());
-    setRating(0);
-    setReviewMsg("");
+   
   }
 
 //   function handleAddReview() {

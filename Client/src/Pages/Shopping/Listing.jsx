@@ -1,6 +1,5 @@
 import { Button } from "@/Components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu"
-import { Toast } from "@/Components/ui/toast"
 import { sortOptions } from "@/Config"
 import { useToast } from "@/hooks/use-toast"
 import ProductDetailsDialog from "@/Layouts/ShoppingLayout/Product-Details"
@@ -19,13 +18,9 @@ function createSearchParamsHelper(filterParams) {
   for (const [key, value] of Object.entries(filterParams)) {
     if (Array.isArray(value) && value.length > 0) {
       const paramValue = value.join(",");
-
       queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
     }
   }
-
-  console.log(queryParams, "queryParams");
-
   return queryParams.join("&");
 }
 const Listing = () => {
@@ -39,7 +34,7 @@ const Listing = () => {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const {toast} = useToast();
 
-
+  const categorySearchParam = serachParams.get("category");
 
   function handleSort(value) {
     setSort(value);
@@ -94,7 +89,7 @@ const Listing = () => {
   useEffect(()=>{
     setSort('price-lowtohigh');
     setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
-  },[])
+  },[categorySearchParam])
 
   useEffect(()=>{
   if(filters && Object.keys(filters).length > 0){
@@ -112,7 +107,6 @@ const Listing = () => {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
-console.log("......productDetails", productDetails )
   return (
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6 ">
     <ProductFilter filters={filters} handleFilter={handleFilter}/>
