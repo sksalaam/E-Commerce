@@ -3,13 +3,14 @@ import { Card, CardContent, CardFooter } from "@/Components/ui/card";
 import { Badge } from "@/Components/ui/badge";
 import { brandOptionsMap, categoryOptionsMap } from "@/Config";
 
-function ShoppingProductTile({product}) {
+
+function ShoppingProductTile({product, handleGetProductDetails, handleAddToCart}) {
 
 console.log(product);
 
   return (
     <Card className="w-full max-w-sm mx-auto">
-      <div >
+      <div onClick={()=> handleGetProductDetails(product?._id)}>
         <div className="relative">
           <img
             src={product?.image}
@@ -49,10 +50,11 @@ console.log(product);
             }            
         </div>
        </CardContent>
-       <CardFooter>
-        <Button className="w-full">Add to Cart</Button>
-       </CardFooter>
+      
       </div>
+      <CardFooter>
+        <Button onClick={()=> handleAddToCart(product?._id)} className="w-full">Add to Cart</Button>
+       </CardFooter>
 
     </Card>
   );

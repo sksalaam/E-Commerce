@@ -1,26 +1,67 @@
 import { Button } from "@/Components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu"
+import { Toast } from "@/Components/ui/toast"
 import { sortOptions } from "@/Config"
+import { useToast } from "@/hooks/use-toast"
+import ProductDetailsDialog from "@/Layouts/ShoppingLayout/Product-Details"
 import ProductFilter from "@/Layouts/ShoppingLayout/ProductFilter"
 import ShoppingProductTile from "@/Layouts/ShoppingLayout/ProductTile"
-import { fetchAllFilteredProducts } from "@/Store/Shop/Produts-Slice"
+import { addToCart, fetchCartItems } from "@/Store/Shop/Cart-Slice"
+import { fetchAllFilteredProducts, fetchProductDetails } from "@/Store/Shop/Produts-Slice"
 import { ArrowUpDownIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import {  useSearchParams } from "react-router-dom"
 
+function createSearchParamsHelper(filterParams) {
+  const queryParams = [];
 
+  for (const [key, value] of Object.entries(filterParams)) {
+    if (Array.isArray(value) && value.length > 0) {
+      const paramValue = value.join(",");
+
+      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+    }
+  }
+
+  console.log(queryParams, "queryParams");
+
+  return queryParams.join("&");
+}
 const Listing = () => {
   const dispatch = useDispatch();
-  const { productList } = useSelector(state => state.shopProducts);
+  const { productList, productDetails } = useSelector(state => state.shopProducts);
+  const { cartItems } = useSelector((state) => state.shopCart);
+  const { user } = useSelector((state) => state.auth);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
+  const [serachParams, setSerachParams] = useSearchParams()
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const {toast} = useToast();
 
-  useEffect(()=>{
-    dispatch(fetchAllFilteredProducts())
-  },[dispatch])
+
 
   function handleSort(value) {
     setSort(value);
+  }
+  function handleAddToCart(getCurrentProductId){
+    dispatch(
+      addToCart(
+        {
+          userId: user?.id, 
+          productId: getCurrentProductId, 
+          quantity:1
+        }
+      )).then(data => {
+        if (data?.payload?.success) {
+          dispatch(fetchCartItems(user?.id));
+          toast({
+            title: "Product is added to cart",
+          });
+          
+        }
+      });
+
   }
 
   function handleFilter(getSectionId, getCurrentOption) {
@@ -43,10 +84,35 @@ const Listing = () => {
 
     setFilters(cpyFilters);
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
+    console.log("copyfilters.....", cpyFilters);
   }
 
+  function handleGetProductDetails (getCurrentProductId){
+    
+    dispatch(fetchProductDetails(getCurrentProductId))
+  }
+  useEffect(()=>{
+    setSort('price-lowtohigh');
+    setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
+  },[])
 
+  useEffect(()=>{
+  if(filters && Object.keys(filters).length > 0){
+  const createQueryString = createSearchParamsHelper(filters)
+  setSerachParams(new URLSearchParams(createQueryString))
+  }
+  }, [filters])
 
+  useEffect(()=>{
+    if (filters !== null && sort !== null)
+    dispatch(fetchAllFilteredProducts({filterParams:filters, sortParams:sort}))
+  },[dispatch, sort, filters])
+
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetailsDialog(true);
+  }, [productDetails]);
+
+console.log("......productDetails", productDetails )
   return (
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6 ">
     <ProductFilter filters={filters} handleFilter={handleFilter}/>
@@ -85,12 +151,18 @@ const Listing = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           { productList?.length > 0
-            ? productList.map((productItem) => <ShoppingProductTile key={productItem.id || productItem._id} product={productItem }/>             
+            ? productList.map((productItem) => 
+            <ShoppingProductTile 
+            key={productItem.id || productItem._id} 
+            product={productItem } 
+            handleGetProductDetails={handleGetProductDetails}
+            handleAddToCart={handleAddToCart}
+            />             
               )
             : <p>No products available</p>}
         </div>
     </div>
-
+   <ProductDetailsDialog  open={openDetailsDialog} setOpen={setOpenDetailsDialog} productDetails={productDetails}/>
     </div>
   )
 }
