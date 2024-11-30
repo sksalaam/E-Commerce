@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { AuthLayout, AdminLayout, ShoppingLayout } from "./Layouts";
 import { Register, Login } from "./Pages/Auth";
-import { Orders, Dashboard, Products } from "./Pages/Admin";
+import {  Dashboard, Products } from "./Pages/Admin";
 import { Home, Account, Listing, Checkout } from "./Pages/Shopping";
 import CheckAuth from "./Components/Common/CheckAuth";
 import UnAuth from "./Pages/UnAuth/UnAuth";
@@ -9,6 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { check_Auth } from "./Store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton"
+import AdminOrders from "./Pages/Admin/Orders";
+import PaypalReturnPage from "./Pages/Shopping/Paypal-Return";
+import PaymentSuccessPage from "./Pages/Shopping/Payment-Success";
 
 
 function App() {
@@ -58,7 +61,7 @@ function App() {
         >
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<Products />} />
-          <Route path="orders" element={<Orders />} />
+          <Route path="orders" element={<AdminOrders />} />
          
         </Route>
         <Route
@@ -73,9 +76,9 @@ function App() {
           <Route path="listing" element={<Listing />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="account" element={<Account />} />
-          {/* <Route path="paypal-return" element={<PaypalReturnPage />} />
+          <Route path="paypal-return" element={<PaypalReturnPage />} />
           <Route path="payment-success" element={<PaymentSuccessPage />} />
-          <Route path="search" element={<SearchProducts />} /> */}
+          {/* <Route path="search" element={<SearchProducts />} /> */}
         </Route>
         <Route path="/unAuth" element={<UnAuth />} />
         {/* <Route path="*" element={<NotFound />} /> */}

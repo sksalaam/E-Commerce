@@ -7,6 +7,7 @@ const adminProductRoutes = require("./Routes/Admin/ProductsRoutes.js");
 const shopProductRoutes = require("./Routes/Shop/ProductRoutes.js");
 const cartRoutes = require("./Routes/Shop/Cart-Routes.js")
 const shopAddressRouter = require("./Routes/Shop/Address-Routes.js");
+const shopOrderRoutes = require("./Routes/Shop/Order-Routes.js"); 
 
 const app = express();
 require('dotenv').config();
@@ -33,6 +34,8 @@ app.use("/api/admin/products", adminProductRoutes);
 app.use("/api/shop/products", shopProductRoutes);
 app.use("/api/shop/cart", cartRoutes);
 app.use("/api/shop/address", shopAddressRouter);
+app.use("/api/shop/order", shopOrderRoutes);
+
 
 const port = process.env.PORT || 3000;
 const mongoDbUrl = process.env.MONGODB_URL;
