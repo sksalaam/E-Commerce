@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { Badge } from "@/Components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Dialog } from "@/Components/ui/dialog";
@@ -5,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AdminOrderDetailsView from "./Order-details";
+import { getAllOrdersForAdmin, getOrderDetailsForAdmin, resetOrderDetails } from "@/Store/Admin/Order-Slice";
+import { Button } from "@/Components/ui/button";
 
 
 function AdminOrders() {
@@ -12,15 +15,15 @@ function AdminOrders() {
   const { orderList, orderDetails } = useSelector((state) => state.adminOrder);
   const dispatch = useDispatch();
 
-  // function handleFetchOrderDetails(getId) {
-  //   dispatch(getOrderDetailsForAdmin(getId));
-  // }
+  function handleFetchOrderDetails(getId) {
+    dispatch(getOrderDetailsForAdmin(getId));
+  }
 
-  // useEffect(() => {
-  //   dispatch(getAllOrdersForAdmin());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllOrdersForAdmin());
+  }, [dispatch]);
 
-  // console.log(orderDetails, "orderList");
+  console.log(orderDetails, "orderList");
 
   useEffect(() => {
     if (orderDetails !== null) setOpenDetailsDialog(true);

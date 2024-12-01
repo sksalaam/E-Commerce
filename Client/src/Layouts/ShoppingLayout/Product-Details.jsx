@@ -1,13 +1,18 @@
+import StarRatingComponent from "@/Components/Common/Star-Rating";
 import { Avatar, AvatarFallback } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/button";
 import { Dialog, DialogContent } from "@/Components/ui/dialog";
+import { Input } from "@/Components/ui/input";
+import { Label } from "@/Components/ui/label";
 import { Separator } from "@/Components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { addToCart, fetchCartItems } from "@/Store/Shop/Cart-Slice";
 import { setProductDetails } from "@/Store/Shop/Produts-Slice";
-
+import { addReview, getReviews } from "@/Store/Shop/Review-Slice";
+import { StarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 
 function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const [reviewMsg, setReviewMsg] = useState("");
@@ -15,15 +20,15 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
-//   const { reviews } = useSelector((state) => state.shopReview);
+  const { reviews } = useSelector((state) => state.shopReview);
 
   const { toast } = useToast();
 
-//   function handleRatingChange(getRating) {
-//     console.log(getRating, "getRating");
+  function handleRatingChange(getRating) {
+    console.log(getRating, "getRating");
 
-//     setRating(getRating);
-//   }
+    setRating(getRating);
+  }
 
   function handleAddToCart(getCurrentProductId, getTotalStock) {
     let getCartItems = cartItems.items || [];
@@ -63,41 +68,42 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   function handleDialogClose() {
     setOpen(false);
     dispatch(setProductDetails());
-   
+    setRating(0);
+    setReviewMsg("");
   }
 
-//   function handleAddReview() {
-//     dispatch(
-//       addReview({
-//         productId: productDetails?._id,
-//         userId: user?.id,
-//         userName: user?.userName,
-//         reviewMessage: reviewMsg,
-//         reviewValue: rating,
-//       })
-//     ).then((data) => {
-//       if (data.payload.success) {
-//         setRating(0);
-//         setReviewMsg("");
-//         dispatch(getReviews(productDetails?._id));
-//         toast({
-//           title: "Review added successfully!",
-//         });
-//       }
-//     });
-//   }
+  function handleAddReview() {
+    dispatch(
+      addReview({
+        productId: productDetails?._id,
+        userId: user?.id,
+        userName: user?.userName,
+        reviewMessage: reviewMsg,
+        reviewValue: rating,
+      })
+    ).then((data) => {
+      if (data.payload.success) {
+        setRating(0);
+        setReviewMsg("");
+        dispatch(getReviews(productDetails?._id));
+        toast({
+          title: "Review added successfully!",
+        });
+      }
+    });
+  }
 
-//   useEffect(() => {
-//     if (productDetails !== null) dispatch(getReviews(productDetails?._id));
-//   }, [productDetails]);
+  useEffect(() => {
+    if (productDetails !== null) dispatch(getReviews(productDetails?._id));
+  }, [productDetails]);
 
 
 
-//   const averageReview =
-//     reviews && reviews.length > 0
-//       ? reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
-//         reviews.length
-//       : 0;
+  const averageReview =
+    reviews && reviews.length > 0
+      ? reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
+        reviews.length
+      : 0;
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
@@ -132,14 +138,14 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
               </p>
             ) : null}
           </div>
-          {/* <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 mt-2">
             <div className="flex items-center gap-0.5">
               <StarRatingComponent rating={averageReview} />
             </div>
             <span className="text-muted-foreground">
               ({averageReview.toFixed(2)})
             </span>
-          </div> */}
+          </div>
           <div className="mt-5 mb-5">
             {productDetails?.totalStock === 0 ? (
               <Button className="w-full opacity-60 cursor-not-allowed">
@@ -160,7 +166,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             )}
           </div>
           <Separator />
-          {/* <div className="max-h-[300px] overflow-auto">
+          <div className="max-h-[300px] overflow-auto">
             <h2 className="text-xl font-bold mb-4">Reviews</h2>
             <div className="grid gap-6">
               {reviews && reviews.length > 0 ? (
@@ -209,7 +215,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                 Submit
               </Button>
             </div>
-          </div> */}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

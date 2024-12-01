@@ -8,6 +8,11 @@ const shopProductRoutes = require("./Routes/Shop/ProductRoutes.js");
 const cartRoutes = require("./Routes/Shop/Cart-Routes.js")
 const shopAddressRouter = require("./Routes/Shop/Address-Routes.js");
 const shopOrderRoutes = require("./Routes/Shop/Order-Routes.js"); 
+const adminOrderRoutes = require("./Routes/Admin/Order-Routes.js");
+const shopSearchRoutes = require("./Routes/Shop/Search-Routes.js"); 
+const shopReviewRoutes = require("./Routes/Shop/Review-Routes.js"); 
+const featuresRoutes = require("./Routes/Common/Feature-Routes.js"); 
+
 
 const app = express();
 require('dotenv').config();
@@ -31,10 +36,20 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminProductRoutes);
+app.use("/api/admin/orders", adminOrderRoutes);
+
 app.use("/api/shop/products", shopProductRoutes);
 app.use("/api/shop/cart", cartRoutes);
 app.use("/api/shop/address", shopAddressRouter);
 app.use("/api/shop/order", shopOrderRoutes);
+app.use("/api/shop/search", shopSearchRoutes);
+app.use("/api/shop/review", shopReviewRoutes);
+
+app.use("/api/common/feature", featuresRoutes)
+
+
+
+
 
 
 const port = process.env.PORT || 3000;

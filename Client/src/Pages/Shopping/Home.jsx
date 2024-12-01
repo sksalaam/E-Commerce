@@ -26,6 +26,7 @@ import { addToCart, fetchCartItems } from "@/Store/Shop/Cart-Slice";
 import ShoppingProductTile from "@/Layouts/ShoppingLayout/ProductTile";
 import ProductDetailsDialog from "@/Layouts/ShoppingLayout/Product-Details";
 import { useToast } from "@/hooks/use-toast";
+import { getFeatureImages } from "@/Store/Common/Image-Slice";
 
 
 const categoriesWithIcon = [
@@ -114,9 +115,9 @@ function Home() {
 
 
 
-  // useEffect(() => {
-  //   dispatch(getFeatureImages());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getFeatureImages());
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col min-h-screen">

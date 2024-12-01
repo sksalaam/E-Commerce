@@ -53,7 +53,12 @@ console.log(product);
       
       </div>
       <CardFooter>
-        <Button onClick={()=> handleAddToCart(product?._id)} className="w-full">Add to Cart</Button>
+        {
+          product?.totalStock <= 0? 
+          <Button className="w-full opacity-60 cursor-not-allowed">Out of Stock</Button> : (
+            <Button onClick={()=> handleAddToCart(product?._id, product?.totalStock)} className="w-full">Add to Cart</Button>
+          )
+        }        
        </CardFooter>
 
     </Card>

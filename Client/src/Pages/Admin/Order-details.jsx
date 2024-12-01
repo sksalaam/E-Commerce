@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-key */
 import CommmonForm from "@/Components/Common/Form";
 import { Badge } from "@/Components/ui/badge";
 import { DialogContent } from "@/Components/ui/dialog";
 import { Label } from "@/Components/ui/label";
 import { Separator } from "@/Components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { getAllOrdersForAdmin, getOrderDetailsForAdmin, updateOrderStatus } from "@/Store/Admin/Order-Slice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -88,7 +90,7 @@ function AdminOrderDetailsView({ orderDetails }) {
                 ? orderDetails?.cartItems.map((item) => (
                     <li className="flex items-center justify-between">
                       <span>Title: {item.title}</span>
-                      <span>Quantity: {item.quantity}</span>
+                      <span>Quantity: {item.quantity}</span> 
                       <span>Price: ${item.price}</span>
                     </li>
                   ))

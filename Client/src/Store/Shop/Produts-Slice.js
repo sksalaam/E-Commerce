@@ -3,8 +3,9 @@ import axios from "axios";
 
 
 const initialState ={
-  isLoading:false,
-  productList:[]
+  isLoading: false,
+  productList: [],
+  productDetails: null,
 }
 
 export const fetchAllFilteredProducts = createAsyncThunk('/products/fetchAllProducts',
