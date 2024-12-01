@@ -1,71 +1,84 @@
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
-import { Label } from "@/Components/ui/label";
-import { Skeleton } from "@/Components/ui/skeleton";
-import axios from "axios";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
+
 import { useEffect, useRef } from "react";
 
-const ImageUpload = ({
-  imagefile,
+import axios from "axios";
+import { Label } from "@/Components/ui/label";
+import { Input } from "@/Components/ui/input";
+import { Skeleton } from "@/Components/ui/skeleton";
+import { Button } from "@/Components/ui/button";
+
+
+function ImageUpload({
+  imageFile,
   setImageFile,
+  imageLoadingState,
   uploadedImageUrl,
   setUploadedImageUrl,
-  imageLoading,
-  setImageLoading,
-  isEditMode
-}) => {
+  setImageLoadingState,
+  isEditMode,
+  isCustomStyling = false,
+}) {
   const inputRef = useRef(null);
 
-  const handleImageFileChange = (event) => {
-    const imgFile = event.target.files?.[0];
-    if (imgFile) setImageFile(imgFile);
-  };
-  const handleDrag = (event) => {
+  console.log(isEditMode, "isEditMode");
+
+  function handleImageFileChange(event) {
+    console.log(event.target.files, "event.target.files");
+    const selectedFile = event.target.files?.[0];
+    console.log(selectedFile);
+
+    if (selectedFile) setImageFile(selectedFile);
+  }
+
+  function handleDragOver(event) {
     event.preventDefault();
-    event.dataTransfer.dropEffect = "copy";
-  };
-  const handleDrop = (event) => {
+  }
+
+  function handleDrop(event) {
     event.preventDefault();
-    const imgFile = event.dataTransfer.files[0];
-    if (imgFile) setImageFile(imgFile);
-  };
-  const handleRemoveImg = () => {
+    const droppedFile = event.dataTransfer.files?.[0];
+    if (droppedFile) setImageFile(droppedFile);
+  }
+
+  function handleRemoveImage() {
     setImageFile(null);
     if (inputRef.current) {
       inputRef.current.value = "";
     }
-  };
-  async function uploadImageToCloudinary() {
-    setImageLoading(true);
-    const data = new FormData();
-    data.append("my_file", imagefile);
+  }
 
-    const resposne = await axios.post(
+  async function uploadImageToCloudinary() {
+    setImageLoadingState(true);
+    const data = new FormData();
+    data.append("my_file", imageFile);
+    const response = await axios.post(
       "http://localhost:3000/api/admin/products/upload-image",
       data
     );
-    console.log("response.....", resposne);
-    if (resposne?.data?.success) {
-      setImageLoading(false);
-      setUploadedImageUrl(resposne.data.result.url);
+    console.log(response, "response");
+
+    if (response?.data?.success) {
+      setUploadedImageUrl(response.data.result.url);
+      setImageLoadingState(false);
     }
   }
 
-  console.log("imagefile....", imagefile);
   useEffect(() => {
-    if (imagefile !== null) uploadImageToCloudinary();
-  }, [imagefile]);
+    if (imageFile !== null) uploadImageToCloudinary();
+  }, [imageFile]);
 
   return (
-    <div className="width-full max-w-md mx-auto">
-      <Label className="text-md mt-3 font-semibold mb-2 block ">
-        Upload Image
-      </Label>
+    <div
+      className={`w-full  mt-4 ${isCustomStyling ? "" : "max-w-md mx-auto"}`}
+    >
+      <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
       <div
-        onDragOver={handleDrag}
+        onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className={` border-2 border-dashed rounded-lg p-4 ${isEditMode? "opacity-50" : ""} `}
+        className={`${
+          isEditMode ? "opacity-60" : ""
+        } border-2 border-dashed rounded-lg p-4`}
       >
         <Input
           id="image-upload"
@@ -75,27 +88,29 @@ const ImageUpload = ({
           onChange={handleImageFileChange}
           disabled={isEditMode}
         />
-        {!imagefile ? (
+        {!imageFile ? (
           <Label
             htmlFor="image-upload"
-            className={`flex flex-col items-center justify-center h-32 cursor-pointer  ${ isEditMode? "cursor-not-allowed" : " "} `}
+            className={`${
+              isEditMode ? "cursor-not-allowed" : ""
+            } flex flex-col items-center justify-center h-32 cursor-pointer`}
           >
             <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
-            <span>Choose an image</span>
+            <span>Drag & drop or click to upload image</span>
           </Label>
+        ) : imageLoadingState ? (
+          <Skeleton className="h-10 bg-gray-100" />
         ) : (
-            imageLoading?
-            <Skeleton className="h-10 bg-gray-200"/>:
-          <div className="flex justify-center items-center">
+          <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <FileIcon className="w-8 h-8 mr-2 text-primary" />
+              <FileIcon className="w-8 text-primary mr-2 h-8" />
             </div>
-            <p className="text-sm font-medium">{imagefile.name}</p>
+            <p className="text-sm font-medium">{imageFile.name}</p>
             <Button
               variant="ghost"
               size="icon"
               className="text-muted-foreground hover:text-foreground"
-              onClick={handleRemoveImg}
+              onClick={handleRemoveImage}
             >
               <XIcon className="w-4 h-4" />
               <span className="sr-only">Remove File</span>
@@ -105,6 +120,6 @@ const ImageUpload = ({
       </div>
     </div>
   );
-};
+}
 
 export default ImageUpload;

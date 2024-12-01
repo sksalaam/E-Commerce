@@ -47,7 +47,7 @@ export const editProduct = createAsyncThunk(
       }
     );
 
-    return result?.data;
+    return result?.data; 
   }
 );
 
