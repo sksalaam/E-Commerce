@@ -6,7 +6,7 @@ import {
   useSearchParams,} from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import UserCartWrapper from "./cart-wrapper";
+import UserCartWrapper from "./Cart-Wrapper";
 import { useEffect, useState } from "react";
 import { shoppingViewHeaderMenuItems } from "@/Config";
 import { Label } from "@/Components/ui/label";
