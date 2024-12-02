@@ -1,14 +1,19 @@
 import { Button } from "@/Components/ui/button"
-import { logoutUser } from "@/Store/auth-slice"
+import { logoutUser, resetTokenAndCredentials } from "@/Store/auth-slice"
 import { Menu, LogOut } from "lucide-react"
 import { useDispatch } from "react-redux"
 import { toast } from "@/hooks/use-toast"
+import { useNavigate } from "react-router-dom"
 
 const AdminHeader = ({setOpen}) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const handleLogout = () =>{
-   dispatch(logoutUser()) 
+  //  dispatch(logoutUser()) 
+   dispatch(resetTokenAndCredentials());
+   sessionStorage.clear();
+   navigate("/auth/login");
    toast({
     title: 'Logout Successfull!'
   })

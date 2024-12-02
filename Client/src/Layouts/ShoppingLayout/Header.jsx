@@ -4,13 +4,13 @@ import {
   useLocation,
   useNavigate,
   useSearchParams,} from "react-router-dom";
-
+  import { toast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux";
 import UserCartWrapper from "./Cart-Wrapper";
 import { useEffect, useState } from "react";
 import { shoppingViewHeaderMenuItems } from "@/Config";
 import { Label } from "@/Components/ui/label";
-import { logoutUser } from "@/Store/auth-slice";
+import { logoutUser, resetTokenAndCredentials } from "@/Store/auth-slice";
 import { fetchCartItems } from "@/Store/Shop/Cart-Slice";
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import { Button } from "@/Components/ui/button";
@@ -66,7 +66,13 @@ function HeaderRightContent() {
   const dispatch = useDispatch();
 
   function handleLogout() {
-    dispatch(logoutUser());
+    // dispatch(logoutUser());
+    dispatch(resetTokenAndCredentials());
+    sessionStorage.clear();
+    navigate("/auth/login");
+    toast({
+      title: 'Logout Successfull!'
+    })
   }
 
   useEffect(() => {
