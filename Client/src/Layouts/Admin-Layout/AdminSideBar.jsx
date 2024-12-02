@@ -1,6 +1,6 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/Components/ui/sheet"
-import { LayoutDashboard, ShoppingBasket, ShoppingCart } from "lucide-react"
+import { Github, LayoutDashboard, ShoppingBasket, ShoppingCart } from "lucide-react"
 import { ChartNoAxesCombined } from "lucide-react"
 import { Fragment } from "react"
 import { useNavigate } from "react-router-dom"
@@ -55,7 +55,7 @@ const AdminSideBar = ({open, setOpen}) => {
       <div className="flex flex-col h-full">
         <SheetHeader className='border-b'>
           <SheetTitle className='flex gap-2 mt-5 mb-5'>
-            <ChartNoAxesCombined strokeWidth={2.25}/>
+            <Github strokeWidth={2.25}/>
             <span className="text-xl font-bold">Admin Panel</span>
           </SheetTitle>
         </SheetHeader>
@@ -67,7 +67,7 @@ const AdminSideBar = ({open, setOpen}) => {
     <div
      onClick={() => navigate('/admin/dashboard')}
      className="flex cursor-pointer items-center gap-2">
-    <ChartNoAxesCombined  strokeWidth={2.25} />
+    <Github  strokeWidth={2.25} />
     <h1 className="text-2xl font-bold">Admin Panel</h1>
     </div>
    <MenuItems/>

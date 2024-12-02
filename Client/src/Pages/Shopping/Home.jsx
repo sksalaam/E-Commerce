@@ -4,13 +4,6 @@ import {
   BabyIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  Heater,
-  Images,
-  Shirt,
-  ShirtIcon,
-  ShoppingBasket,
-  UmbrellaIcon,
-  WashingMachine,
   WatchIcon,
 } from "lucide-react";
 import { FaFemale } from "react-icons/fa";
