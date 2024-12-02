@@ -8,7 +8,7 @@ import UnAuth from "./Pages/UnAuth/UnAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { check_Auth } from "./Store/auth-slice";
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/Components/ui/skeleton"
 import AdminOrders from "./Pages/Admin/Orders";
 import PaypalReturnPage from "./Pages/Shopping/Paypal-Return";
 import PaymentSuccessPage from "./Pages/Shopping/Payment-Success";
