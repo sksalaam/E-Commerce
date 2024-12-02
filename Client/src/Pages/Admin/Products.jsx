@@ -135,13 +135,13 @@ const Products = () => {
             </SheetTitle>
           </SheetHeader>
           <ImageUpload 
-          imagefile={imagefile} 
+          imageFile={imagefile} 
           setImageFile={setImageFile} 
           uploadedImageUrl={uploadedImageUrl} 
           setUploadedImageUrl={setUploadedImageUrl}
-          imageLoading={imageLoading}
-          setImageLoading={setImageLoading}
-          isEditMode={currentEditedId}
+          imageLoadingState={imageLoading}
+          setImageLoadingState={setImageLoading}
+          isEditMode={currentEditedId}         
           />  
           <div className="py-5">
              <CommmonForm

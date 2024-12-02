@@ -1,7 +1,5 @@
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
-
 import { useEffect, useRef } from "react";
-
 import axios from "axios";
 import { Label } from "@/Components/ui/label";
 import { Input } from "@/Components/ui/input";

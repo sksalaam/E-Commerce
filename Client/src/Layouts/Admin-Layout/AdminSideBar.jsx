@@ -1,7 +1,6 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/Components/ui/sheet"
 import { Github, LayoutDashboard, ShoppingBasket, ShoppingCart } from "lucide-react"
-import { ChartNoAxesCombined } from "lucide-react"
 import { Fragment } from "react"
 import { useNavigate } from "react-router-dom"
 
