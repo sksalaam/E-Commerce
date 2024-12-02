@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
   Airplay,
   BabyIcon,
@@ -14,7 +14,7 @@ import { SiAdidas } from "react-icons/si";
 import { SiPuma } from "react-icons/si";
 import { SiZara } from "react-icons/si";
 import { TbLetterH } from "react-icons/tb";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/Components/ui/card";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

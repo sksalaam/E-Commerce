@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/Components/ui/card";
 import { capturePayment } from "@/Store/Shop/Order-Slice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
